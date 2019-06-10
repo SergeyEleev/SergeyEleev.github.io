@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script type="text/javascript" src="https://visjs.org/dist/vis.js"></script>
+    <link href="https://visjs.org/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+
+        }
+    </style>
+</head>
+<div id="mynetwork"></div>
+<body>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    // create an array with nodes
+   // $('#load').on('click', loadFriends);
+    window.onload=loadFriends();
+
+    var listFriends=[];
+    var connections=[];
+    var allInfFriends=[];
+
+    function getUrl(method, params) {
+
+        if (!method) throw new Error('No method');
+        params = params || {};
+        //params['access_token']='411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba';
+        params['access_token'] = 'f697a110c10789a9bfdbe4082a2f665c325de0323145e69ff01e178bb82f76887b07093014662575b28a9';
+        //return 'https://api.vk.com/method/friends.search?count=10&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
+        //return 'https://api.vk.com/method/friends.search?user_id=329797497&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
+        return 'https://api.vk.com/method/' + method + '?' + $.param(params) + '&v=5.52';
+    }
+
+    function sendRequest(method, params, func) {
+        $.ajax({
+            url: getUrl(method, params),
+            method: 'GET',
+            dataType: 'JSONP',
+            success: func
+
+        });
+    }
+
+    function loadFriends() {
+        sendRequest('friends.get', {fields: 'photo_50'}, function (data) {
+            console.log('all',data.response.items);
+            //drawFriends(data.response.items);
+            console.log("ok");
+            //var list = [];
+            for (var i = 0; i < data.response.items.length; i++) {
+                listFriends.push(data.response.items[i].id);
+                //allInfFriends.push(data.response.items[i].id :{first_name:data.response.items[i].first_name,last_name:data.response.items[i].last_name,});
+                //allInfFriends[data.response.items[i].id]={first_name:data.response.items[i].first_name,last_name:data.response.items[i].last_name,}
+
+            }
+            allInfFriends=data.response.items;
+            console.log('listFriends',listFriends);
+            loadCommonFriends(listFriends);
+
+
+        });
+    }
+    async function loadCommonFriends(listFriends) {
+        var k = 0;
+        var m = 20;
+        var a = [];
+        var b = [];
+        for (var j = 0; j < ((listFriends.length - listFriends.length % 20) / 20) + 1; j++) {
+            // setTimeout(console.log(listFriends.slice(k,m)),300000);
+            if (j === (((listFriends.length - listFriends.length % 20) / 20) - 1)) {
+                findCommon(listFriends.slice(k, m));
+                k = m;
+                m = listFriends.length
+            } else {
+                findCommon(listFriends.slice(k, m));
+                k = k + 20;
+                m = m + 20;
+            }
+        }
+    }
+
+    function showResult(connections){
+        console.log('массив связей', connections);
+        console.log('длина массива связей',connections.length);
+        console.log('первый элемент массива связей',connections[0]);
+        //drawGraph(connections);
+        setConnestions(connections);
+    }
+
+
+
+    function findCommon(friends) {
+
+        sendRequest('execute.loadCommonFriends', {friends: friends},
+            function (data) {
+                for(var i=0; i<data.response.length; i++)
+                    connections.push(data.response[i]); //вот где заполняется массив
+                if(connections.length===listFriends.length){showResult(connections);}
+
+            })
+
+
+    }
+    function setConnestions(connections){
+        var datConnect={};
+        for(var c=0; c<connections.length;c++){
+            datConnect[connections[c].key+'']=connections[c].value.slice();
+        }
+        console.log('datConnect',datConnect);
+        console.log('datConnectDel',datConnectDel);
+        var datConnectDel=JSON.parse(JSON.stringify(datConnect));
+
+        //console.log('datConnect',datConnect);
+       // console.log('datConnectDel',datConnectDel);
+        var id1;
+        for(var id in datConnect){
+            //console.log(id);
+            for(var ids=0; ids<datConnect[id].length; ids++)
+            {
+                id1=datConnect[id][ids];
+                datConnect[id1].splice(datConnect[id1].indexOf(Number(id)),1); //datConnect[id1].indexOf(datConnectDel[id1].indexOf(2985117))
+
+            }
+        }
+        console.log('datConnectDel',datConnectDel);
+        console.log('datConnect',datConnect);
+        drawGraph(datConnect);
+
+    }
+
+    function drawGraph(datConnect){
+
+        var nodes = new vis.DataSet([]);
+        console.log(allInfFriends);
+        for(var k=0; k<listFriends.length-1;k++){
+            nodes.add({id:allInfFriends[k].id, label:allInfFriends[k].last_name+'\n'+allInfFriends[k].first_name,shape: 'circularImage',image: allInfFriends[k].photo_50});
+        }
+
+
+
+
+    // create an array with edges
+    var edges = new vis.DataSet([]);
+         for(var e in datConnect) {
+             for (var i = 0; i < datConnect[e].length; i++)
+             {
+                 edges.add({from: e, to: datConnect[e][i]})
+               /*  var idKey=connections
+                 var index = connections[i].value.indexOf(connections[i].value[j]);
+                 if (index > -1) {
+                     array.splice(index, 1);
+                 }*/
+
+             }}
+
+    // create a network
+    var container = document.getElementById('mynetwork');
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+    var options = {
+        nodes: {
+            borderWidth:4,
+            size:50,
+            color: {
+                border: '#222222',
+                background: '#666666'
+            }
+        }
+
+
+    };
+    var network = new vis.Network(container, data, options);}
+</script>
+</body>
+</html>
