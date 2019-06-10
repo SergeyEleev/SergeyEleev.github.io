@@ -36,7 +36,7 @@
         params['access_token'] = 'f697a110c10789a9bfdbe4082a2f665c325de0323145e69ff01e178bb82f76887b07093014662575b28a9';
         //return 'https://api.vk.com/method/friends.search?count=10&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
         //return 'https://api.vk.com/method/friends.search?user_id=329797497&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
-        return 'https://api.vk.com/method/' + method + '?' +'user_id=1&'+ $.param(params) + '&v=5.52';
+        return 'https://api.vk.com/method/' + method + '?'+ $.param(params) + '&v=5.52';
     }
 
     function sendRequest(method, params, func) {
