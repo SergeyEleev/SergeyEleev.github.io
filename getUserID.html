@@ -14,12 +14,6 @@
         </script>
 
 
-<!-- Put this div tag to the place, where Auth block will be -->
-<div id="vk_auth"></div>
-<script type="text/javascript">
-VK.Widgets.Auth("vk_auth", {authUrl: '/hello.php'});
-</script>
-
 
 <!-- Put this div tag to the place, where the Comments block will be -->
 <div id="vk_comments"></div>
@@ -27,22 +21,6 @@ VK.Widgets.Auth("vk_auth", {authUrl: '/hello.php'});
 VK.Widgets.Comments("vk_comments", {limit: 10, attach: "*"});
 </script>
 
-<!-- VK Widget -->
-<div id="vk_community_messages"></div>
-<script type="text/javascript">
-VK.Widgets.CommunityMessages("vk_community_messages", 85705787, {expanded: "1",tooltipButtonText: "Есть вопрос?"});
-</script>
-
-<!-- Put this script tag to the place, where the Share button will be -->
-<script type="text/javascript"><!--
-document.write(VK.Share.button(false,{type: "round", text: "Сохранить"}));
---></script>
-
-<!-- Put this div tag to the place, where the Like block will be -->
-<div id="vk_like"></div>
-<script type="text/javascript">
-VK.Widgets.Like("vk_like", {type: "button"});
-</script>
 
     </body>
 </html>
