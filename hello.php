@@ -1,2 +1,14 @@
-<?php
-     <h1>Hello</h1>;
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+
+
+
+
+           
+    </body>
+</html>
