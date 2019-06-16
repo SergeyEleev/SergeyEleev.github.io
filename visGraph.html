@@ -19,20 +19,20 @@
 </head>
 <div id="mynetwork"></div>
 <body>
-   <script type="text/javascript">
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
+<script type="text/javascript">
     VK.init({apiId: 7022148});
 </script>
 <!-- VK Widget -->
 <div id="vk_auth"></div>
 <script type="text/javascript">
-    VK.Widgets.Auth("vk_auth", {"onAuth":function(data) {alert('user '+data['uid']+' authorized');}});
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    VK.Widgets.Auth("vk_auth", {"onAuth":function(data) {alert('user '+data['uid']+' authorized');loadFriends(data['uid'])}});
 
-<script type="text/javascript">
     // create an array with nodes
    // $('#load').on('click', loadFriends);
-    loadFriends();
+
+    //loadFriends();
 
     var listFriends=[];
     var connections=[];
@@ -46,7 +46,7 @@
         params['access_token'] = '0e549b96da22dd7f9c06887fc91be4e18a1c5b92c2458ed7ae04c9344defd072e876be19fbd397cb196e6';
         //return 'https://api.vk.com/method/friends.search?count=10&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
         //return 'https://api.vk.com/method/friends.search?user_id=329797497&access_token=411a0d46abf42f8f2e2c0292c26f800431ba12bd131250236a311e031e0b79a33293f0d167bdec52f52ba&v=5.52';
-        return 'https://api.vk.com/method/' + method + '?'+ $.param(params) + '&v=5.52';
+        return 'https://api.vk.com/method/' + method + '?' + $.param(params) + '&v=5.52';
     }
 
     function sendRequest(method, params, func) {
@@ -59,7 +59,8 @@
         });
     }
 
-    function loadFriends() {
+    function loadFriends(uid) {
+        console.log(uid);
         sendRequest('friends.get', {fields: 'photo_50'}, function (data) {
             console.log('all',data.response.items);
             //drawFriends(data.response.items);
@@ -90,7 +91,7 @@
                 k = m;
                 m = listFriends.length
             } else {
-                if(k!==m)findCommon(listFriends.slice(k, m));
+                if(k!==m) findCommon(listFriends.slice(k, m));
                 k = k + 20;
                 m = m + 20;
             }
@@ -108,9 +109,10 @@
 
 
     function findCommon(friends) {
-
+        console.log(friends);
         sendRequest('execute.loadCommonFriends', {friends: friends},
             function (data) {
+                console.log('data',data);
                 for(var i=0; i<data.response.length; i++)
                     connections.push(data.response[i]); //вот где заполняется массив
                 if(connections.length===listFriends.length){showResult(connections);}
@@ -191,6 +193,5 @@
     };
     var network = new vis.Network(container, data, options);}
 </script>
-
 </body>
 </html>
