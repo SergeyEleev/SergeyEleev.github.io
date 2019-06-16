@@ -61,7 +61,7 @@
 
     function loadFriends(uid) {
         console.log(uid);
-        sendRequest('friends.get', {fields: 'photo_50'}, function (data) {
+        sendRequest('friends.get', {fields: 'photo_50',user_id:uid}, function (data) {
             console.log('all',data.response.items);
             //drawFriends(data.response.items);
             console.log("ok");
