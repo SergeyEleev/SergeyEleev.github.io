@@ -5,6 +5,8 @@
     <title>Title</title>
 
     <script type="text/javascript" src="https://visjs.org/dist/vis.js"></script>
+    <script src="https://vk.com/js/api/openapi.js?146" type="text/javascript"></script>
+    <script type="text/javascript" src="https://vk.com/js/api/share.js?95" charset="windows-1251"></script>
     <link href="https://visjs.org/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
 
     <style type="text/css">
@@ -181,6 +183,14 @@
 
     };
     var network = new vis.Network(container, data, options);}
+</script>
+<script type="text/javascript">
+            VK.init({apiId: 7022148});
+</script>
+    <!-- VK Widget -->
+<div id="vk_auth"></div>
+<script type="text/javascript">
+  VK.Widgets.Auth("vk_auth", {"onAuth":function(data) {alert('user '+data['uid']+' authorized');}});
 </script>
 </body>
 </html>
