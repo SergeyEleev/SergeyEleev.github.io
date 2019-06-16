@@ -63,9 +63,9 @@
 
     function loadFriends(uid) {
         console.log(uid);
-        var hre="https://oauth.vk.com/authorize?client_id="+7002201+"&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token&v=5.52";
+        var hre="https://oauth.vk.com/authorize?client_id="+7002201+"&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=code&v=5.52";
         window.open(hre, "hello", "width=200,height=200");
-        setTimeout( ac_t=prompt('вставьте сюда: '),10000000);
+        //setTimeout( ac_t=prompt('вставьте сюда: '),10000000);
         console.log(ac_t);
         //window.open("https://www.yahoo.com", "hello", "width=200,height=200");
         userID=uid;
