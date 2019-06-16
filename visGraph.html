@@ -19,6 +19,7 @@
 <div id="mynetwork"></div>
 <body>
 <button id="loadCodeButton">Загрузить code</button>
+<button id="loadTokenButton">Загрузить token</button>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://vk.com/js/api/openapi.js?160"></script>
 <script type="text/javascript">
@@ -31,23 +32,29 @@
     var connections=[];
     var allInfFriends=[];
     var userID;
-    var ac_t;
+    var userCode;
     $('#loadCodeButton').on('click',loadCode);
     function loadCode(){
-        ac_t=prompt('вставьте сюда: ');
-        console.log(ac_t);
+        userCode=prompt('вставьте сюда: ');
+        console.log(userCode);
+    }
+    $('#loadTokenButton').on('click',loadToken);
+    function loadToken(){
+        var hre="https://oauth.vk.com/access_token?client_id=7002201&client_secret=UUQV0KNR5O5m777cyc4Q&redirect_uri=https://oauth.vk.com/blank.html&code="+userCode;
+        window.open(hre, '_blank');
+        console.log('loadToken...');
     }
     VK.Widgets.Auth("vk_auth", {"onAuth":function(data) {alert('user '+data['uid']+' authorized');getAuth(data['uid'])}});
     // create an array with nodes
     // $('#load').on('click', loadFriends);
     //loadFriends();
-    
+
     function getAuth(uid){
         console.log(uid);
         var hre="https://oauth.vk.com/authorize?client_id="+7002201+"&display=page&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=code&v=5.52";
         //window.open(hre, "hello", "width=200,height=200");
         window.open(hre, '_blank');
-        
+
         //window.open("https://www.yahoo.com", "hello", "width=200,height=200");
         userID=uid;
         console.log('userID',userID);
