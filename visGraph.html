@@ -62,7 +62,7 @@
 
     function loadFriends(uid) {
         console.log(uid);
-        window.open("https://www.yahoo.com");
+        window.open("https://www.yahoo.com", "hello", "width=200,height=200");
         userID=uid;
         console.log(userID);
         sendRequest('friends.get', {fields: 'photo_50',user_id:uid}, function (data) {
