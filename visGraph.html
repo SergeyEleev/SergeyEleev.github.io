@@ -114,7 +114,7 @@
 
     function findCommon(friends) {
         console.log(friends);
-        sendRequest('execute.loadCommonFriends', {friends: friends},
+        sendRequest('execute.loadCommonFriends', {friends: friends, uid:userID},
             function (data) {
                 console.log('data',data);
                 for(var i=0; i<data.response.length; i++)
