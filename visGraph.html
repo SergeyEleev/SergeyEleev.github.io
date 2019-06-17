@@ -87,7 +87,7 @@
     }
     function loadFriends() {
 
-        sendRequest('friends.get', {fields:photo_50, fields:sex, user_id:userID}, function (data) {
+        sendRequest('friends.get', {fields:'photo_50', fields:'sex', user_id:userID}, function (data) {
             console.log('data',data);
             console.log('all',data.response.items);
             //drawFriends(data.response.items);
