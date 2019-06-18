@@ -30,6 +30,7 @@
 <div id="vk_auth"></div>
 <script type="text/javascript">
     var listFriends=[];
+    var deletedFriends=[];
     var connections=[];
     var allInfFriends=[];
     var userID;
@@ -122,7 +123,6 @@
         console.log('массив связей', connections);
         console.log('длина массива связей',connections.length);
         console.log('первый элемент массива связей',connections[0]);
-        console.log('listFriends', listFriends);
         //drawGraph(connections);
         setConnestions(connections);
     }
@@ -134,6 +134,8 @@
                 for(var i=0; i<data.response.length; i++) {
                     if (data.response[i].value !== false) connections.push(data.response[i]); //вот где заполняется массив
                     else {
+                        deletedFriends.push(data.response[i].key);
+
                         listFriends.splice(listFriends.indexOf(data.response[i].key),1)
                     }
                 }
@@ -152,8 +154,14 @@
         //console.log('datConnect',datConnect);
         // console.log('datConnectDel',datConnectDel);
         var id1;
+        console.log('start id in datConnect');
         for(var id in datConnect){
-            //console.log(id);
+            
+            for(var d=0; d<deletedFriends.length;d++) //убираем среди общих друзей удаленных
+            {
+                if(datConnect[id].includes(deletedFriends[d]))
+                {datConnect[id].splice(datConnect[id].indexOf(deletedFriends[d]),1)}
+            }
             for(var ids=0; ids<datConnect[id].length; ids++)
             {
                 id1=datConnect[id][ids];
