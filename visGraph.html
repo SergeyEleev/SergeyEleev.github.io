@@ -155,16 +155,22 @@
         // console.log('datConnectDel',datConnectDel);
         var id1;
         console.log('start id in datConnect');
+        console.log('deletedFriends', deletedFriends);
         for(var id in datConnect){
-            
+            console.log('id',id);
             for(var d=0; d<deletedFriends.length;d++) //убираем среди общих друзей удаленных
             {
                 if(datConnect[id].includes(deletedFriends[d]))
-                {datConnect[id].splice(datConnect[id].indexOf(deletedFriends[d]),1)}
+                {   console.log('datConnect[id]',datConnect[id]);
+                    datConnect[id].splice(datConnect[id].indexOf(deletedFriends[d]),1)
+                    console.log('datConnect[id]',datConnect[id]);
+                }
             }
             for(var ids=0; ids<datConnect[id].length; ids++)
             {
                 id1=datConnect[id][ids];
+                console.log('id1',id1);
+                console.log('datConnect[id1]',datConnect[id1]);
                 datConnect[id1].splice(datConnect[id1].indexOf(Number(id)),1); //datConnect[id1].indexOf(datConnectDel[id1].indexOf(2985117))
             }
         }
