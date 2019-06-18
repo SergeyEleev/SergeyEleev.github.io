@@ -134,7 +134,7 @@
                 for(var i=0; i<data.response.length; i++) {
                     if (data.response[i].value !== false) connections.push(data.response[i]); //вот где заполняется массив
                     else {
-                        deletedFriends.push(data.response[i].key);
+                        deletedFriends.push(Number(data.response[i].key));
 
                         listFriends.splice(listFriends.indexOf(data.response[i].key),1)
                     }
@@ -161,9 +161,9 @@
             for(var d=0; d<deletedFriends.length;d++) //убираем среди общих друзей удаленных
             {
                 if(datConnect[id].includes(deletedFriends[d]))
-                {   console.log('datConnect[id]',datConnect[id]);
+                {   console.log('!!! datConnect[id]',datConnect[id]);
                     datConnect[id].splice(datConnect[id].indexOf(deletedFriends[d]),1)
-                    console.log('datConnect[id]',datConnect[id]);
+                    console.log('!!! datConnect[id]',datConnect[id]);
                 }
             }
             for(var ids=0; ids<datConnect[id].length; ids++)
