@@ -181,7 +181,7 @@
     function drawGraph(datConnect){
         var nodes = new vis.DataSet([]);
         console.log(allInfFriends);
-        for(var k=0; k<listFriends.length-1;k++){
+        for(var k=0; k<allInfFriends.length;k++){
             nodes.add({id:allInfFriends[k].id, label:allInfFriends[k].last_name+'\n'+allInfFriends[k].first_name,shape: 'circularImage',image: allInfFriends[k].photo_50});
         }
         // create an array with edges
